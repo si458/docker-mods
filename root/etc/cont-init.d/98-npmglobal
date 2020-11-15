@@ -7,13 +7,4 @@ echo "setting npm to global folder"
 npm config set prefix '/config/npm-global'
 
 echo "ensuring npm-global is in PATH"
-if grep -q -E '^(export )?PATH=' /etc/services.d/code-server/run; then
-  if ! grep -q -E '^(export )?PATH=.*/config/npm-global/bin.*' /etc/services.d/code-server/run; then
-    sed -i '/PATH/ s/$/:\/config\/npm-global\/bin/' /etc/services.d/code-server/run
-  fi
-  if ! grep -q -E '^(export )?PATH=.*/config/npm-global/bin:.*' /etc/services.d/code-server/run; then
-    sed -i 's/PATH=/PATH=\/config\/npm-global\/bin:/g' /etc/services.d/code-server/run
-  fi
-else
-  sed -i '/^#!\/usr\/bin/a \\n# Added by codeserver-npmglobal\nexport PATH=/config/npm-global/bin:$PATH' /etc/services.d/code-server/run
-fi
+sed -i '/^#!\/usr\/bin/a \\n# Added by codeserver-npmglobal\nexport PATH=/config/npm-global/bin:$PATH' /etc/services.d/code-server/run
