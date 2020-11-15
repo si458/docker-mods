@@ -2,9 +2,7 @@
 
 # check npm exists
 if [ -f /usr/bin/npm ]; then
-  ## Ubuntu
-  mkdir /config/.npm-global
+  mkdir -f /config/.npm-global
   npm config set prefix '/config/.npm-global'
   export PATH=/config/.npm-global/bin:$PATH
-  source ~/.profile
 fi
