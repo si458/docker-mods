@@ -6,5 +6,9 @@ mkdir -p /config/npm-global
 echo "setting npm to global folder"
 npm config set prefix '/config/npm-global'
 
-echo "ensuring npm-global is in PATH"
-sed -i '/^#!\/usr\/bin/a \\n# Added by codeserver-npmglobal\nexport PATH=/config/npm-global/bin:$PATH' /etc/services.d/code-server/run
+if grep -q "/config/npm-global/bin" "/etc/services.d/code-server/run"; then
+  echo "npm-global already in PATH"
+else
+  echo "ensuring npm-global is in PATH"
+  sed -i '/^#!\/usr\/bin/a \\n# Added by codeserver-npmglobal\nexport PATH=/config/npm-global/bin:$PATH' /etc/services.d/code-server/run
+fi
